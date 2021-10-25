@@ -3,6 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
 import { degToRad } from "three/src/math/MathUtils";
 import { Settings } from "../preview";
+import { base64ToArrayBuffer } from "./utils";
 
 const scene = new THREE.Scene();
 
@@ -46,49 +47,42 @@ const camera = new THREE.PerspectiveCamera(
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
-const loader = new STLLoader();
-loader.load(
-  getSettings().src,
-  (geometry) => {
-    const material = new THREE.MeshLambertMaterial({
-      color: 0x49ef4,
-    });
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+(() => {
+  const loader = new STLLoader();
+  const geometry = loader.parse(base64ToArrayBuffer(getSettings().data));
 
-    const bb = new THREE.Box3();
-    bb.setFromObject(mesh);
+  const material = new THREE.MeshLambertMaterial({
+    color: 0x49ef4,
+  });
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
 
-    if (initialState) {
-      camera.position.x = initialState.cameraPosition.x;
-      camera.position.y = initialState.cameraPosition.y;
-      camera.position.z = initialState.cameraPosition.z;
-    } else {
-      camera.position.y = -20;
-      camera.position.z = bb.max.z + 20;
-    }
+  const bb = new THREE.Box3();
+  bb.setFromObject(mesh);
 
-    const size =
-      Math.ceil(
-        Math.max(
-          Math.abs(bb.max.x),
-          Math.abs(bb.min.x),
-          Math.abs(bb.max.y),
-          Math.abs(bb.min.y)
-        ) / 5
-      ) * 10;
-
-    const gridHelper = new THREE.GridHelper(size, size / 5);
-    scene.add(gridHelper.rotateX(degToRad(90)));
-    scene.add(new THREE.AxesHelper(size));
-  },
-  (xhr) => {
-    console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
-  },
-  (error) => {
-    console.log(error);
+  if (initialState) {
+    camera.position.x = initialState.cameraPosition.x;
+    camera.position.y = initialState.cameraPosition.y;
+    camera.position.z = initialState.cameraPosition.z;
+  } else {
+    camera.position.y = -20;
+    camera.position.z = bb.max.z + 20;
   }
-);
+
+  const size =
+    Math.ceil(
+      Math.max(
+        Math.abs(bb.max.x),
+        Math.abs(bb.min.x),
+        Math.abs(bb.max.y),
+        Math.abs(bb.min.y)
+      ) / 5
+    ) * 10;
+
+  const gridHelper = new THREE.GridHelper(size, size / 5);
+  scene.add(gridHelper.rotateX(degToRad(90)));
+  scene.add(new THREE.AxesHelper(size));
+})();
 
 window.addEventListener("resize", onWindowResize, false);
 function onWindowResize() {
