@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "main": "./out/extension.js",
+  "publisher": "mtsmfm",
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "esbuild src/extension.ts src/media/main.ts --bundle --outdir=out --external:vscode --sourcemap --platform=node"
