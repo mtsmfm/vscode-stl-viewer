@@ -1,0 +1,15 @@
+apiVersion: v2
+publisher: mtsmfm
+name: vscode-stl-viewer
+version: "0.1.0"
+type: VS Code extension
+displayName: vscode-stl-viewer
+title: vscode-stl-viewer
+description: vscode-stl-viewer
+category: Other
+repository: https://github.com/mtsmfm/vscode-stl-viewer.git
+firstPublicationDate: "2021-10-26"
+latestUpdateDate: "2021-10-26"
+spec:
+  extensions:
+    - https://open-vsx.org/api/mtsmfm/vscode-stl-viewer/0.1.0/file/mtsmfm.vscode-stl-viewer-0.1.0.vsix
