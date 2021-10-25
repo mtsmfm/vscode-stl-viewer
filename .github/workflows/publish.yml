@@ -1,0 +1,17 @@
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "npm"
+      - run: npm install
+      - run: npx vsce publish --pat ${{ secrets.VS_MARKETPLACE_TOKEN }}
+      - run: npx ovsx publish --pat ${{ secrets.OPEN_VSX_TOKEN }}
