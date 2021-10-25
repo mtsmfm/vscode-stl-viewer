@@ -119,12 +119,6 @@ export class Preview extends Disposable {
     resource: vscode.Uri,
     version: string
   ): Promise<string> {
-    // Avoid adding cache busting if there is already a query string
-    if (resource.query) {
-      return webviewEditor.webview
-        .asWebviewUri(vscode.Uri.file(resource.fsPath))
-        .toString();
-    }
     return webviewEditor.webview
       .asWebviewUri(vscode.Uri.file(resource.fsPath))
       .with({ query: `version=${version}` })
