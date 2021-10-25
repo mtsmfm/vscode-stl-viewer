@@ -1,7 +1,7 @@
 apiVersion: v2
 publisher: mtsmfm
 name: vscode-stl-viewer
-version: "0.1.1"
+version: "0.1.2"
 type: VS Code extension
 displayName: vscode-stl-viewer
 title: vscode-stl-viewer
@@ -12,4 +12,4 @@ firstPublicationDate: "2021-10-26"
 latestUpdateDate: "2021-10-26"
 spec:
   extensions:
-    - https://open-vsx.org/api/mtsmfm/vscode-stl-viewer/0.1.0/file/mtsmfm.vscode-stl-viewer-0.1.1.vsix
+    - https://open-vsx.org/api/mtsmfm/vscode-stl-viewer/0.1.2/file/mtsmfm.vscode-stl-viewer-0.1.2.vsix
