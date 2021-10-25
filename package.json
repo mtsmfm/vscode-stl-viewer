@@ -2,9 +2,10 @@
   "name": "vscode-stl-viewer",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "./out/extension.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "vscode:prepublish": "npm run compile",
+    "compile": "esbuild src/extension.ts src/media/main.ts --bundle --outdir=out --external:vscode --sourcemap --platform=node"
   },
   "repository": {
     "type": "git",
@@ -24,5 +25,24 @@
     "esbuild": "^0.13.9",
     "three": "^0.133.1",
     "typescript": "^4.4.4"
+  },
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "stlViewer.previewEditor",
+        "displayName": "STL Viewer",
+        "selector": [
+          {
+            "filenamePattern": "*.stl"
+          }
+        ]
+      }
+    ]
+  },
+  "activationEvents": [
+    "onCustomEditor:stlViewer.previewEditor"
+  ],
+  "engines": {
+    "vscode": "^1.52.0"
   }
 }
