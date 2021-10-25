@@ -1,0 +1,22 @@
+apiVersion: 1.0.0
+metadata:
+  generateName: vscode-stl-viewer-
+attributes:
+  extensions.ignoreRecommendations: "true"
+projects:
+  - name: vscode-stl-viewer
+    source:
+      location: https://github.com/mtsmfm/vscode-stl-viewer
+      type: github
+components:
+  - mountSources: true
+    memoryLimit: 4Gi
+    type: dockerimage
+    alias: node
+    image: ghcr.io/mtsmfm/devfiles/node:16
+  - id: che-incubator/typescript/latest
+    type: chePlugin
+  - id: esbenp/prettier-vscode/latest
+    type: chePlugin
+  - id: redhat/vscode-yaml/latest
+    type: chePlugin
