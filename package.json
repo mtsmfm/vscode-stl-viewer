@@ -1,0 +1,19 @@
+{
+  "name": "vscode-stl-viewer",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mtsmfm/vscode-stl-viewer.git"
+  },
+  "author": "Fumiaki MATSUSHIMA",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mtsmfm/vscode-stl-viewer/issues"
+  },
+  "homepage": "https://github.com/mtsmfm/vscode-stl-viewer#readme"
+}
