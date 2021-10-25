@@ -15,5 +15,14 @@
   "bugs": {
     "url": "https://github.com/mtsmfm/vscode-stl-viewer/issues"
   },
-  "homepage": "https://github.com/mtsmfm/vscode-stl-viewer#readme"
+  "homepage": "https://github.com/mtsmfm/vscode-stl-viewer#readme",
+  "devDependencies": {
+    "@types/node": "^16.11.4",
+    "@types/three": "^0.133.1",
+    "@types/vscode": "^1.61.0",
+    "@types/vscode-webview": "^1.57.0",
+    "esbuild": "^0.13.9",
+    "three": "^0.133.1",
+    "typescript": "^4.4.4"
+  }
 }
