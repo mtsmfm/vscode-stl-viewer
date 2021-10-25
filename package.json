@@ -21,7 +21,7 @@
   "devDependencies": {
     "@types/node": "^16.11.4",
     "@types/three": "^0.133.1",
-    "@types/vscode": "^1.61.0",
+    "@types/vscode": "^1.52.0",
     "@types/vscode-webview": "^1.57.0",
     "esbuild": "^0.13.9",
     "ovsx": "^0.2.1",
