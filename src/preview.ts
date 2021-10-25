@@ -100,7 +100,7 @@ export class Preview extends Disposable {
 	<!-- Disable pinch zooming -->
 	<meta name="viewport"
 		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
-	<title>Image Preview</title>
+	<title>STL Preview</title>
 	<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: ${cspSource}; script-src 'nonce-${nonce}'; style-src ${cspSource} 'nonce-${nonce}'; connect-src https:;">
 	<meta id="settings" data-settings="${escapeAttribute(
     JSON.stringify(settings)
