@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { TrackballControls } from "three/examples/jsm/controls/TrackballControls";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader";
 import { degToRad } from "three/src/math/MathUtils";
 import { Settings } from "../preview";
@@ -44,8 +44,9 @@ const camera = new THREE.PerspectiveCamera(
   2000
 );
 
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
+const controls = new TrackballControls(camera, renderer.domElement);
+controls.rotateSpeed = 5;
+controls.panSpeed = 3;
 
 (() => {
   const loader = new STLLoader();
