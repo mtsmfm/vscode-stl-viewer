@@ -6,7 +6,7 @@
   "publisher": "mtsmfm",
   "scripts": {
     "vscode:prepublish": "npm run compile",
-    "compile": "esbuild src/extension.ts src/media/main.ts --bundle --outdir=out --external:vscode --sourcemap --platform=node"
+    "compile": "esbuild src/extension.ts src/media/main.ts --bundle --outdir=out --external:vscode --sourcemap --platform=node && cp -rf src/media/main.css out/media/main.css"
   },
   "repository": {
     "type": "git",
@@ -40,7 +40,58 @@
           }
         ]
       }
-    ]
+    ],
+
+    "configuration": {
+      "title": "STL Viewer",
+      "properties": {
+        "stlViewer.showViewButtons": {
+          "type": "boolean",
+          "default": true,
+          "description": "Shows buttons to control camera position"
+        },
+        "stlViewer.viewOffset": {
+          "type": "number",
+          "default": 40,
+          "description": "Offset of the view when using view buttons"
+        },
+        "stlViewer.showInfo": {
+          "type": "boolean",
+          "default": false,
+          "description": "Shows data related to the object and view"
+        },
+        "stlViewer.showAxes": {
+          "type": "boolean",
+          "default": false,
+          "description": "Shows view axes"
+        },
+        "stlViewer.showBoundingBox": {
+          "type": "boolean",
+          "default": false,
+          "description": "Shows object bounding box"
+        },
+        "stlViewer.showGrid": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show grid"
+        },
+        "stlViewer.gridColor": {
+          "type": "string",
+          "default": "#111",
+          "description": "Color to be used on the grid"
+        },
+        "stlViewer.meshMaterialType": {
+          "type": "string",
+          "default": "lambert",
+          "description": "Type of material. It can be basic, standard, lambert, normal or phong"
+        },
+        "stlViewer.meshMaterialConfig": {
+          "type": ["object", null],
+          "default": null,
+          "description": "Config to be used with the material selected"
+        }
+      }
+    }
   },
   "activationEvents": [
     "onCustomEditor:stlViewer.previewEditor"
