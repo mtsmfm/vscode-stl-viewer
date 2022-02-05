@@ -1,6 +1,6 @@
 {
   "name": "vscode-stl-viewer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "",
   "main": "./out/extension.js",
   "publisher": "mtsmfm",
