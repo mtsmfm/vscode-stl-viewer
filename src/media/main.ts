@@ -303,33 +303,6 @@ function onWindowResize(
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function onAction(
-  evt: Event,
-  camera: ReturnType<typeof setCamera>,
-  controls: ReturnType<typeof setControls>,
-  mesh: ReturnType<typeof setMesh>
-) {
-  if ((evt.target as any).closest(".button--isometric") !== null) {
-    setCameraPosition(camera, controls, "isometric", mesh);
-  }
-
-  if ((evt.target as any).closest(".button--top") !== null) {
-    setCameraPosition(camera, controls, "top", mesh);
-  }
-
-  if ((evt.target as any).closest(".button--left") !== null) {
-    setCameraPosition(camera, controls, "left", mesh);
-  }
-
-  if ((evt.target as any).closest(".button--right") !== null) {
-    setCameraPosition(camera, controls, "right", mesh);
-  }
-
-  if ((evt.target as any).closest(".button--bottom") !== null) {
-    setCameraPosition(camera, controls, "bottom", mesh);
-  }
-}
-
 function update(
   camera: ReturnType<typeof setCamera>,
   renderer: ReturnType<typeof setRenderer>,
@@ -394,17 +367,19 @@ function init() {
     false
   );
 
-  const actionsEl = document.querySelector(".actions");
-  if (actionsEl != null) {
-    if (!settings.showViewButtons) {
-      actionsEl.classList.add("hide");
-    } else {
-      actionsEl.classList.remove("hide");
-    }
-
-    actionsEl.addEventListener("click", (evt) =>
-      onAction(evt, camera, controls, mesh)
+  const actionsEl = document.querySelector(".actions")!;
+  if (settings.showViewButtons) {
+    (["isometric", "top", "left", "right", "bottom"] as const).forEach(
+      (action) => {
+        document
+          .querySelector<HTMLButtonElement>(`.button--${action}`)!
+          .addEventListener("click", () => {
+            setCameraPosition(camera, controls, action, mesh);
+          });
+      }
     );
+  } else {
+    actionsEl.remove();
   }
 
   // time to run the loop...
