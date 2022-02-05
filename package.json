@@ -83,7 +83,14 @@
         "stlViewer.meshMaterialType": {
           "type": "string",
           "default": "lambert",
-          "description": "Type of material. It can be basic, standard, lambert, normal or phong"
+          "description": "Type of material. It can be basic, standard, lambert, normal or phong",
+          "enum": [
+            "basic",
+            "standard",
+            "lambert",
+            "normal",
+            "phong"
+          ]
         },
         "stlViewer.meshMaterialConfig": {
           "type": [
