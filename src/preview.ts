@@ -157,7 +157,6 @@ export class Preview extends Disposable {
 <body>
   <div id="viewer">
     <div class="actions">
-      <!--<button class="button button--fit">Fit to view</button>-->
       <button class="button button--isometric">Isometric</button>
       <button class="button button--top">Top</button>
       <button class="button button--left">Left</button>
