@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
-import { Disposable } from "./disposable";
+import * as THREE from "three";
 import { readFileSync } from "fs";
+import { Disposable } from "./disposable";
 
 const enum PreviewState {
   Init,
@@ -8,6 +9,32 @@ const enum PreviewState {
 }
 
 export interface Settings {
+  showViewButtons: boolean;
+  viewOffset: number;
+  showInfo: boolean;
+  showAxes: boolean;
+  showBoundingBox: boolean;
+  isOrtho: boolean;
+  grid: {
+    enable: boolean;
+    color: THREE.ColorRepresentation;
+  };
+  meshMaterial: {
+    type: 'phong';
+    config: THREE.MeshPhongMaterialParameters;
+  } | {
+    type: 'lambert';
+    config: THREE.MeshLambertMaterialParameters;
+  } | {
+    type: 'normal';
+    config: THREE.MeshNormalMaterialParameters;
+  } | {
+    type: 'basic';
+    config: THREE.MeshBasicMaterialParameters;
+  } | {
+    type: 'standard';
+    config: THREE.MeshStandardMaterialParameters;
+  };
   data: string;
 }
 
@@ -81,11 +108,32 @@ export class Preview extends Disposable {
     }
   }
 
-  private async getWebviewContents(): Promise<string> {
+  private getSettings(): Settings {
+    const config = vscode.workspace.getConfiguration('stlViewer');
     const settings: Settings = {
+      showInfo: config.hasOwnProperty('showInfo') ? config.showInfo : false,
+      showAxes: config.hasOwnProperty('showAxes') ? config.showAxes : false,
+      showBoundingBox: config.hasOwnProperty('showBoundingBox') ? config.showBoundingBox : false,
+      showViewButtons: config.hasOwnProperty('showViewButtons') ? config.showViewButtons : true,
+      isOrtho: config.hasOwnProperty('isOrtho') ? config.isOrtho : false,
+      viewOffset: config.hasOwnProperty('viewOffset') ? config.viewOffset : 40,
+      grid: {
+        enable: config.hasOwnProperty('showGrid') ? config.showGrid : true,
+        color: config.hasOwnProperty('gridColor') ? config.gridColor : '#111'
+      },
+      meshMaterial: {
+        type: config.hasOwnProperty('meshMaterialType') ? config.meshMaterialType : 'lambert',
+        config: config.hasOwnProperty('meshMaterialConfig') ? config.meshMaterialConfig : null
+      },
+
       data: readFileSync(this.resource.fsPath, { encoding: "base64" }),
     };
 
+    return settings;
+  }
+
+  private async getWebviewContents(): Promise<string> {
+    const settings = this.getSettings();
     const nonce = Date.now().toString();
 
     const cspSource = this.webviewEditor.webview.cspSource;
@@ -94,18 +142,23 @@ export class Preview extends Disposable {
 <head>
 	<meta charset="UTF-8">
 	<!-- Disable pinch zooming -->
-	<meta name="viewport"
-		content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 	<title>STL Preview</title>
 	<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: ${cspSource}; script-src 'nonce-${nonce}'; style-src ${cspSource} 'nonce-${nonce}'; connect-src https:;">
-	<meta id="settings" data-settings="${escapeAttribute(
-    JSON.stringify(settings)
-  )}">
+	<meta id="settings" data-settings="${escapeAttribute(JSON.stringify(settings))}">
+  <link rel="stylesheet" type="text/css" href="${escapeAttribute(this.extensionResource("/out/media/main.css"))}">
 </head>
 <body>
-	<script src="${escapeAttribute(
-    this.extensionResource("/out/media/main.js")
-  )}" nonce="${nonce}"></script>
+  <div class="actions">
+    <!--<button>Ortho</button>-->
+    <!--<button class="button button--fit">Fit to view</button>-->
+    <button class="button button--isometric">Isometric</button>
+    <button class="button button--top">Top</button>
+    <button class="button button--left">Left</button>
+    <button class="button button--right">Right</button>
+    <button class="button button--bottom">Bottom</button>
+  </div>
+	<script src="${escapeAttribute(this.extensionResource("/out/media/main.js"))}" nonce="${nonce}"></script>
 </body>
 </html>`;
   }
