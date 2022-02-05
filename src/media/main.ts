@@ -79,7 +79,7 @@ function setCameraPosition(
   mesh: ReturnType<typeof setMesh>
 ) {
   const settings = getSettings();
-  const viewOffset = settings == null ? 40 : settings.viewOffset;
+  const viewOffset = settings.viewOffset;
 
   const boundingBox = new THREE.Box3();
   boundingBox.setFromObject(mesh);
