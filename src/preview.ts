@@ -155,13 +155,15 @@ export class Preview extends Disposable {
   )}">
 </head>
 <body>
-  <div class="actions">
-    <!--<button class="button button--fit">Fit to view</button>-->
-    <button class="button button--isometric">Isometric</button>
-    <button class="button button--top">Top</button>
-    <button class="button button--left">Left</button>
-    <button class="button button--right">Right</button>
-    <button class="button button--bottom">Bottom</button>
+  <div id="viewer">
+    <div class="actions">
+      <!--<button class="button button--fit">Fit to view</button>-->
+      <button class="button button--isometric">Isometric</button>
+      <button class="button button--top">Top</button>
+      <button class="button button--left">Left</button>
+      <button class="button button--right">Right</button>
+      <button class="button button--bottom">Bottom</button>
+    </div>
   </div>
 	<script src="${escapeAttribute(
     this.extensionResource("/out/media/main.js")

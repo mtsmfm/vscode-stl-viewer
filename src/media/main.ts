@@ -16,6 +16,7 @@ interface State {
 const WEBVIEW_API = acquireVsCodeApi<State>();
 const WEBVIEW_STATE = WEBVIEW_API.getState();
 let settings: Settings;
+const viewerElement = document.getElementById("viewer")!;
 
 // -----------------------------------------
 // functions
@@ -39,9 +40,10 @@ function getSettings(): Settings {
 }
 
 function setRenderer() {
+  const { width, height } = viewerElement.getBoundingClientRect();
   const renderer = new THREE.WebGLRenderer();
   renderer.outputEncoding = THREE.sRGBEncoding;
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(width, height);
 
   return renderer;
 }
@@ -54,12 +56,8 @@ function setScene() {
 }
 
 function setCamera(cameraPosition?: State["cameraPosition"]) {
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
+  const { width, height } = viewerElement.getBoundingClientRect();
+  const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
 
   camera.up = new THREE.Vector3(0, 0, 1);
 
@@ -246,7 +244,7 @@ function setExtras(
     infoText.style.padding = "20px";
     infoText.style.top = "0";
     infoText.style.left = "0";
-    document.body.appendChild(infoText);
+    viewerElement.appendChild(infoText);
 
     const roundDecimals = (num: number): number => Math.round(num * 100) / 100;
 
@@ -296,11 +294,14 @@ function onWindowResize(
   camera: ReturnType<typeof setCamera>,
   renderer: ReturnType<typeof setRenderer>
 ) {
-  (camera as THREE.PerspectiveCamera).aspect =
-    window.innerWidth / window.innerHeight;
+  const { width, height } = document
+    .getElementById("viewer")!
+    .getBoundingClientRect();
+
+  (camera as THREE.PerspectiveCamera).aspect = width / height;
 
   camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setSize(width, height);
 }
 
 function update(
@@ -333,7 +334,7 @@ function init() {
   const state = stateManager.getState();
 
   const renderer = setRenderer();
-  document.body.appendChild(renderer.domElement);
+  viewerElement.appendChild(renderer.domElement);
 
   const scene = setScene();
   const camera = setCamera(state.cameraPosition);
