@@ -368,7 +368,7 @@ function init() {
     false
   );
 
-  const actionsEl = document.querySelector(".actions")!;
+  const actionsEl = document.getElementById("actions")!;
   if (settings.showViewButtons) {
     (["isometric", "top", "left", "right", "bottom"] as const).forEach(
       (action) => {
