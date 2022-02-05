@@ -53,15 +53,7 @@ function setScene() {
   return scene;
 }
 
-function setCamera(
-  cameraPosition?: State["cameraPosition"],
-  isOrtho?: boolean
-) {
-  if (isOrtho) {
-    // TODO: enable ortho camera
-    // return new THREE.OrthographicCamera()
-  }
-
+function setCamera(cameraPosition?: State["cameraPosition"]) {
   const camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
@@ -302,13 +294,10 @@ function setStateManager() {
 
 function onWindowResize(
   camera: ReturnType<typeof setCamera>,
-  renderer: ReturnType<typeof setRenderer>,
-  isOrtho?: boolean
+  renderer: ReturnType<typeof setRenderer>
 ) {
-  if (!isOrtho) {
-    (camera as THREE.PerspectiveCamera).aspect =
-      window.innerWidth / window.innerHeight;
-  }
+  (camera as THREE.PerspectiveCamera).aspect =
+    window.innerWidth / window.innerHeight;
 
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);

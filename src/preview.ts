@@ -14,7 +14,6 @@ export interface Settings {
   showInfo: boolean;
   showAxes: boolean;
   showBoundingBox: boolean;
-  isOrtho: boolean;
   grid: {
     enable: boolean;
     color: THREE.ColorRepresentation;
@@ -120,7 +119,6 @@ export class Preview extends Disposable {
       showAxes: config.showAxes,
       showBoundingBox: config.showBoundingBox,
       showViewButtons: config.showViewButtons,
-      isOrtho: config.isOrtho,
       viewOffset: config.viewOffset,
       grid: {
         enable: config.showGrid,
@@ -158,7 +156,6 @@ export class Preview extends Disposable {
 </head>
 <body>
   <div class="actions">
-    <!--<button>Ortho</button>-->
     <!--<button class="button button--fit">Fit to view</button>-->
     <button class="button button--isometric">Isometric</button>
     <button class="button button--top">Top</button>
