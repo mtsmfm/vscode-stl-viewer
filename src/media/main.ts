@@ -390,7 +390,7 @@ function init() {
   // set events
   window.addEventListener(
     "resize",
-    () => onWindowResize(camera, renderer, false),
+    () => onWindowResize(camera, renderer),
     false
   );
 
