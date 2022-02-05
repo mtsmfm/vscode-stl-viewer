@@ -19,22 +19,27 @@ export interface Settings {
     enable: boolean;
     color: THREE.ColorRepresentation;
   };
-  meshMaterial: {
-    type: 'phong';
-    config: THREE.MeshPhongMaterialParameters;
-  } | {
-    type: 'lambert';
-    config: THREE.MeshLambertMaterialParameters;
-  } | {
-    type: 'normal';
-    config: THREE.MeshNormalMaterialParameters;
-  } | {
-    type: 'basic';
-    config: THREE.MeshBasicMaterialParameters;
-  } | {
-    type: 'standard';
-    config: THREE.MeshStandardMaterialParameters;
-  };
+  meshMaterial:
+    | {
+        type: "phong";
+        config: THREE.MeshPhongMaterialParameters;
+      }
+    | {
+        type: "lambert";
+        config: THREE.MeshLambertMaterialParameters;
+      }
+    | {
+        type: "normal";
+        config: THREE.MeshNormalMaterialParameters;
+      }
+    | {
+        type: "basic";
+        config: THREE.MeshBasicMaterialParameters;
+      }
+    | {
+        type: "standard";
+        config: THREE.MeshStandardMaterialParameters;
+      };
   data: string;
 }
 
@@ -109,21 +114,29 @@ export class Preview extends Disposable {
   }
 
   private getSettings(): Settings {
-    const config = vscode.workspace.getConfiguration('stlViewer');
+    const config = vscode.workspace.getConfiguration("stlViewer");
     const settings: Settings = {
-      showInfo: config.hasOwnProperty('showInfo') ? config.showInfo : false,
-      showAxes: config.hasOwnProperty('showAxes') ? config.showAxes : false,
-      showBoundingBox: config.hasOwnProperty('showBoundingBox') ? config.showBoundingBox : false,
-      showViewButtons: config.hasOwnProperty('showViewButtons') ? config.showViewButtons : true,
-      isOrtho: config.hasOwnProperty('isOrtho') ? config.isOrtho : false,
-      viewOffset: config.hasOwnProperty('viewOffset') ? config.viewOffset : 40,
+      showInfo: config.hasOwnProperty("showInfo") ? config.showInfo : false,
+      showAxes: config.hasOwnProperty("showAxes") ? config.showAxes : false,
+      showBoundingBox: config.hasOwnProperty("showBoundingBox")
+        ? config.showBoundingBox
+        : false,
+      showViewButtons: config.hasOwnProperty("showViewButtons")
+        ? config.showViewButtons
+        : true,
+      isOrtho: config.hasOwnProperty("isOrtho") ? config.isOrtho : false,
+      viewOffset: config.hasOwnProperty("viewOffset") ? config.viewOffset : 40,
       grid: {
-        enable: config.hasOwnProperty('showGrid') ? config.showGrid : true,
-        color: config.hasOwnProperty('gridColor') ? config.gridColor : '#111'
+        enable: config.hasOwnProperty("showGrid") ? config.showGrid : true,
+        color: config.hasOwnProperty("gridColor") ? config.gridColor : "#111",
       },
       meshMaterial: {
-        type: config.hasOwnProperty('meshMaterialType') ? config.meshMaterialType : 'lambert',
-        config: config.hasOwnProperty('meshMaterialConfig') ? config.meshMaterialConfig : null
+        type: config.hasOwnProperty("meshMaterialType")
+          ? config.meshMaterialType
+          : "lambert",
+        config: config.hasOwnProperty("meshMaterialConfig")
+          ? config.meshMaterialConfig
+          : null,
       },
 
       data: readFileSync(this.resource.fsPath, { encoding: "base64" }),
@@ -145,8 +158,12 @@ export class Preview extends Disposable {
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 	<title>STL Preview</title>
 	<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src data: ${cspSource}; script-src 'nonce-${nonce}'; style-src ${cspSource} 'nonce-${nonce}'; connect-src https:;">
-	<meta id="settings" data-settings="${escapeAttribute(JSON.stringify(settings))}">
-  <link rel="stylesheet" type="text/css" href="${escapeAttribute(this.extensionResource("/out/media/main.css"))}">
+	<meta id="settings" data-settings="${escapeAttribute(
+    JSON.stringify(settings)
+  )}">
+  <link rel="stylesheet" type="text/css" href="${escapeAttribute(
+    this.extensionResource("/out/media/main.css")
+  )}">
 </head>
 <body>
   <div class="actions">
@@ -158,7 +175,9 @@ export class Preview extends Disposable {
     <button class="button button--right">Right</button>
     <button class="button button--bottom">Bottom</button>
   </div>
-	<script src="${escapeAttribute(this.extensionResource("/out/media/main.js"))}" nonce="${nonce}"></script>
+	<script src="${escapeAttribute(
+    this.extensionResource("/out/media/main.js")
+  )}" nonce="${nonce}"></script>
 </body>
 </html>`;
   }

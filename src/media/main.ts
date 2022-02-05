@@ -53,7 +53,10 @@ function setScene() {
   return scene;
 }
 
-function setCamera(cameraPosition?: State['cameraPosition'], isOrtho?: boolean) {
+function setCamera(
+  cameraPosition?: State["cameraPosition"],
+  isOrtho?: boolean
+) {
   if (isOrtho) {
     // TODO: enable ortho camera
     // return new THREE.OrthographicCamera()
@@ -80,8 +83,8 @@ function setCamera(cameraPosition?: State['cameraPosition'], isOrtho?: boolean) 
 function setCameraPosition(
   camera: ReturnType<typeof setCamera>,
   controls: ReturnType<typeof setControls>,
-  position: 'isometric'|'top'|'left'|'right'|'bottom',
-  mesh: ReturnType<typeof setMesh>,
+  position: "isometric" | "top" | "left" | "right" | "bottom",
+  mesh: ReturnType<typeof setMesh>
 ) {
   const settings = getSettings();
   const viewOffset = settings == null ? 40 : settings.viewOffset;
@@ -93,30 +96,36 @@ function setCameraPosition(
   controls.reset();
 
   switch (position) {
-  case 'top':
-    // DEV: for some reason, 0 messes up the view, to investigate further
-    camera.position.set(0, -0.001, boundingBox.max.z + viewOffset);
-    break;
-  case 'left':
-    camera.position.set(-(boundingBox.max.x + viewOffset), 0, dimensions.z / 2);
-    break;
-  case 'right':
-    camera.position.set(boundingBox.max.x + viewOffset, 0, dimensions.z / 2);
-    break;
-  case 'bottom':
-    // DEV: for some reason, 0 messes up the view, to investigate further
-    camera.position.set(0, -0.001, -(boundingBox.max.z + viewOffset));
-    break;
-  case 'isometric':
-  default:
-    // find the biggest dimension so we can offset it
-    let dimension = dimensions.z > dimensions.x ? dimensions.z : dimensions.x;
-    dimension = boundingBox.max.z
+    case "top":
+      // DEV: for some reason, 0 messes up the view, to investigate further
+      camera.position.set(0, -0.001, boundingBox.max.z + viewOffset);
+      break;
+    case "left":
+      camera.position.set(
+        -(boundingBox.max.x + viewOffset),
+        0,
+        dimensions.z / 2
+      );
+      break;
+    case "right":
+      camera.position.set(boundingBox.max.x + viewOffset, 0, dimensions.z / 2);
+      break;
+    case "bottom":
+      // DEV: for some reason, 0 messes up the view, to investigate further
+      camera.position.set(0, -0.001, -(boundingBox.max.z + viewOffset));
+      break;
+    case "isometric":
+    default:
+      // find the biggest dimension so we can offset it
+      let dimension = dimensions.z > dimensions.x ? dimensions.z : dimensions.x;
+      dimension = boundingBox.max.z;
 
-    camera.position.set(
-      dimension + viewOffset / 2, dimension + viewOffset / 2, dimension + viewOffset / 2
-    );
-    break;
+      camera.position.set(
+        dimension + viewOffset / 2,
+        dimension + viewOffset / 2,
+        dimension + viewOffset / 2
+      );
+      break;
   }
 
   // make sure we are looking at the mesh
@@ -157,17 +166,17 @@ function setLights(scene: THREE.Scene) {
   return lights;
 }
 
-function setMaterial(materialConfig: Settings['meshMaterial']) {
+function setMaterial(materialConfig: Settings["meshMaterial"]) {
   switch (materialConfig.type) {
-    case 'basic':
+    case "basic":
       return new THREE.MeshBasicMaterial(materialConfig.config);
-    case 'standard':
+    case "standard":
       return new THREE.MeshStandardMaterial(materialConfig.config);
-    case 'normal':
+    case "normal":
       return new THREE.MeshNormalMaterial(materialConfig.config);
-    case 'phong':
+    case "phong":
       return new THREE.MeshPhongMaterial(materialConfig.config);
-    case 'lambert':
+    case "lambert":
     default:
       return new THREE.MeshLambertMaterial(materialConfig.config);
   }
@@ -175,8 +184,8 @@ function setMaterial(materialConfig: Settings['meshMaterial']) {
 
 function setGrid(
   scene: ReturnType<typeof setScene>,
-  boundingBox: THREE.Box2|THREE.Box3,
-  gridConfig: Settings['grid']
+  boundingBox: THREE.Box2 | THREE.Box3,
+  gridConfig: Settings["grid"]
 ) {
   const size =
     Math.ceil(
@@ -188,7 +197,7 @@ function setGrid(
       ) / 5
     ) * 10;
 
-  const color = gridConfig.color == null ? '#111' : gridConfig.color;
+  const color = gridConfig.color == null ? "#111" : gridConfig.color;
   const gridHelper = new THREE.GridHelper(size, size / 5, color, color);
   scene.add(gridHelper.rotateX(degToRad(90)));
 
@@ -211,7 +220,7 @@ function setExtras(
   mesh: ReturnType<typeof setMesh>,
   showInfo: boolean,
   showAxes: boolean,
-  showBoundingBox: boolean,
+  showBoundingBox: boolean
 ) {
   const boundingBox = new THREE.Box3();
   boundingBox.setFromObject(mesh);
@@ -238,13 +247,13 @@ function setExtras(
   }
 
   if (showInfo) {
-    const infoText = document.createElement('div');
-    infoText.style.position = 'absolute';
+    const infoText = document.createElement("div");
+    infoText.style.position = "absolute";
     infoText.style.backgroundColor = "#000000";
     infoText.style.color = "#ffffff";
-    infoText.style.padding = '20px';
-    infoText.style.top = '0';
-    infoText.style.left = '0';
+    infoText.style.padding = "20px";
+    infoText.style.top = "0";
+    infoText.style.left = "0";
     document.body.appendChild(infoText);
 
     const roundDecimals = (num: number): number => Math.round(num * 100) / 100;
@@ -271,7 +280,7 @@ function setExtras(
       const debugValues = Object.keys(debugData).map((key) => {
         return `${key}: <b>${(debugData as any)[key]}</b>`;
       });
-      infoText.innerHTML = debugValues.join('<br>');
+      infoText.innerHTML = debugValues.join("<br>");
 
       window.requestAnimationFrame(updateDebug);
     };
@@ -297,7 +306,8 @@ function onWindowResize(
   isOrtho?: boolean
 ) {
   if (!isOrtho) {
-    (camera as THREE.PerspectiveCamera).aspect = window.innerWidth / window.innerHeight;
+    (camera as THREE.PerspectiveCamera).aspect =
+      window.innerWidth / window.innerHeight;
   }
 
   camera.updateProjectionMatrix();
@@ -308,26 +318,26 @@ function onAction(
   evt: Event,
   camera: ReturnType<typeof setCamera>,
   controls: ReturnType<typeof setControls>,
-  mesh: ReturnType<typeof setMesh>,
+  mesh: ReturnType<typeof setMesh>
 ) {
-  if ((evt.target as any).closest('.button--isometric') !== null) {
-    setCameraPosition(camera, controls, 'isometric', mesh);
+  if ((evt.target as any).closest(".button--isometric") !== null) {
+    setCameraPosition(camera, controls, "isometric", mesh);
   }
 
-  if ((evt.target as any).closest('.button--top') !== null) {
-    setCameraPosition(camera, controls, 'top', mesh);
+  if ((evt.target as any).closest(".button--top") !== null) {
+    setCameraPosition(camera, controls, "top", mesh);
   }
 
-  if ((evt.target as any).closest('.button--left') !== null) {
-    setCameraPosition(camera, controls, 'left', mesh);
+  if ((evt.target as any).closest(".button--left") !== null) {
+    setCameraPosition(camera, controls, "left", mesh);
   }
 
-  if ((evt.target as any).closest('.button--right') !== null) {
-    setCameraPosition(camera, controls, 'right', mesh);
+  if ((evt.target as any).closest(".button--right") !== null) {
+    setCameraPosition(camera, controls, "right", mesh);
   }
 
-  if ((evt.target as any).closest('.button--bottom') !== null) {
-    setCameraPosition(camera, controls, 'bottom', mesh);
+  if ((evt.target as any).closest(".button--bottom") !== null) {
+    setCameraPosition(camera, controls, "bottom", mesh);
   }
 }
 
@@ -336,9 +346,11 @@ function update(
   renderer: ReturnType<typeof setRenderer>,
   scene: ReturnType<typeof setScene>,
   controls: ReturnType<typeof setControls>,
-  stateManager: ReturnType<typeof setStateManager>,
+  stateManager: ReturnType<typeof setStateManager>
 ) {
-  requestAnimationFrame(() => update(camera, renderer, scene, controls, stateManager));
+  requestAnimationFrame(() =>
+    update(camera, renderer, scene, controls, stateManager)
+  );
 
   controls.update();
   renderer.render(scene, camera);
@@ -369,7 +381,7 @@ function init() {
   const controls = setControls(renderer, camera, mesh);
 
   if (state.cameraPosition == null) {
-    setCameraPosition(camera, controls, 'isometric', mesh);
+    setCameraPosition(camera, controls, "isometric", mesh);
   }
 
   if (settings.grid.enable) {
@@ -387,17 +399,23 @@ function init() {
   );
 
   // set events
-  window.addEventListener("resize", () => onWindowResize(camera, renderer, false), false);
+  window.addEventListener(
+    "resize",
+    () => onWindowResize(camera, renderer, false),
+    false
+  );
 
-  const actionsEl = document.querySelector('.actions');
+  const actionsEl = document.querySelector(".actions");
   if (actionsEl != null) {
     if (!settings.showViewButtons) {
-      actionsEl.classList.add('hide');
+      actionsEl.classList.add("hide");
     } else {
-      actionsEl.classList.remove('hide');
+      actionsEl.classList.remove("hide");
     }
 
-    actionsEl.addEventListener('click', evt => onAction(evt, camera, controls, mesh));
+    actionsEl.addEventListener("click", (evt) =>
+      onAction(evt, camera, controls, mesh)
+    );
   }
 
   // time to run the loop...
